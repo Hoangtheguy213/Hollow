@@ -88,7 +88,9 @@ public class Player : MonoBehaviour
     private bool canDash;
     private bool dashed;
     private float gravity;
+
     public static Player Instance;
+
     private SpriteRenderer sr;
 
     private void Awake()
@@ -354,6 +356,7 @@ public class Player : MonoBehaviour
         {
             Debug.Log("Taking damage: " + _damage);
             Health -= Mathf.RoundToInt(_damage);
+
             Debug.Log("Health after damage: " + Health);
             StartCoroutine(StopTakingDamage());
         }
@@ -366,11 +369,12 @@ public class Player : MonoBehaviour
     }
     IEnumerator StopTakingDamage()
     {
+        anim.SetTrigger("TakeDamage");
         pState.invincible = true;
         GameObject _bloodSpurtparticales = Instantiate(bloodSpurt, transform.position, Quaternion.identity);
         _bloodSpurtparticales.transform.SetParent(transform);
         Destroy(_bloodSpurtparticales, 1.5f);
-        anim.SetTrigger("TakeDamage");
+        
        
         yield return new WaitForSeconds(1f);
         pState.invincible = false;
