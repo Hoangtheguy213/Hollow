@@ -131,12 +131,14 @@ public class Player : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (pState.cutscene) return;
         getInput();
+
         UpdateJumpVariables();
         if (pState.Dashing) return;
         Move();
         Jump();
-        
+        CastSpell();
         Flip();
         StartDash();
         Attack();
@@ -144,7 +146,7 @@ public class Player : MonoBehaviour
         FlashWhileInvincible();
         Heal();
         if (pState.healing) return;
-        CastSpell();
+        
     }
 
     private void OnTriggerEnter2D(Collider2D _other)
@@ -157,7 +159,7 @@ public class Player : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if(pState.Dashing) return;
+        if(pState.Dashing || pState.healing || pState.cutscene) return;
         Recoil();
     }
     void getInput()
@@ -224,6 +226,28 @@ public class Player : MonoBehaviour
         canDash = true;
     }
 
+    public IEnumerator WalkIntoNewScene(Vector2 _exitDir, float _delay)
+    {
+        pState.invincible = true;
+
+        //If exit direction is upwards
+        if (_exitDir.y > 0)
+        {
+            rb.velocity = jumpForce * _exitDir;
+        }
+
+        //If exit direction requires horizontal movement
+        if (_exitDir.x != 0)
+        {
+            xAxist = _exitDir.x > 0 ? 1 : -1;
+            Move();
+        }
+
+        Flip();
+        yield return new WaitForSeconds(_delay);
+        pState.invincible = false;
+        pState.cutscene = false;
+    }
     void Attack()
     {
         timeSinceAttack += Time.deltaTime;
@@ -382,8 +406,11 @@ public class Player : MonoBehaviour
     }
     void FlashWhileInvincible()
     {
-        sr.material.color = pState.invincible ? Color.Lerp(Color.white, Color.black, Mathf.PingPong(Time.time*hitFlashSpeed,1.0f)): Color.white;
+        if (pState.cutscene) return;
+        sr.material.color = pState.invincible ? Color.Lerp(Color.white, Color.black, Mathf.PingPong(Time.time * hitFlashSpeed, 1.0f)) : Color.white;
+
     }
+
     void RestoreTimeScale()
     {
         if (restoreTime)
@@ -470,7 +497,7 @@ public class Player : MonoBehaviour
     }
     void CastSpell()
     {
-        if(Input.GetButtonDown("Cast/Healing") && CastOrHealingTimer <= 0.05f && timeSinceCast >= timeBetweenCast && Mana> manaSpellCost)
+        if(Input.GetButtonUp("Cast/Healing") && CastOrHealingTimer <= 0.05f && timeSinceCast >= timeBetweenCast && Mana> manaSpellCost)
         {
             pState.casting = true;
             timeSinceAttack = 0;
