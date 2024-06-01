@@ -135,6 +135,7 @@ public class Player : MonoBehaviour
         getInput();
 
         UpdateJumpVariables();
+        RestoreTimeScale();
         if (pState.Dashing) return;
         Move();
         Jump();
@@ -142,7 +143,7 @@ public class Player : MonoBehaviour
         Flip();
         StartDash();
         Attack();
-        RestoreTimeScale();
+        
         FlashWhileInvincible();
         Heal();
         if (pState.healing) return;
@@ -259,45 +260,50 @@ public class Player : MonoBehaviour
 
             if (yAxist == 0 || yAxist < 0 && Grounded())
             {
-                Hit(SideAttackTransform, SideAttackArea, ref pState.recoilingX, recoilXSpeed);
+                int _recoilLeftOrRight = pState.lookingRight ? 1 : 1;
+                Hit(SideAttackTransform, SideAttackArea, ref pState.recoilingX,Vector2.right*_recoilLeftOrRight, recoilXSpeed);
                 Instantiate(slashEffect, SideAttackTransform);
             }
             else if (yAxist > 0)
             {
-                Hit(UpAttackTransform, UpAttackArea, ref pState.recoilingY, recoilYSpeed);
+                Hit(UpAttackTransform, UpAttackArea, ref pState.recoilingY,Vector2.up, recoilYSpeed);
                 SlashEffectAtAngle(slashEffect, 95, UpAttackTransform);
             }
             else if (yAxist < 0 && !Grounded())
             {
-                Hit(DownAttackTransform, DownAttackArea, ref pState.recoilingY, recoilYSpeed);
+                Hit(DownAttackTransform, DownAttackArea, ref pState.recoilingY,Vector2.down,  recoilYSpeed);
                 SlashEffectAtAngle(slashEffect, -90, DownAttackTransform);
             }
         }
     }
 
-    void Hit(Transform _attackTransform, Vector2 _attackArea , ref bool _recoilDir, float _recoilStrength)
+    void Hit(Transform _attackTransform, Vector2 _attackArea , ref bool _recoilBool, Vector2 _recoilDir, float _recoilStrength)
     {
         Collider2D[] objectsToHit= Physics2D.OverlapBoxAll(_attackTransform.position, _attackArea,0, attackAbleLayer);
-        List<Enemy> hitEnemies = new List<Enemy>();
+        //List<Enemy> hitEnemies = new List<Enemy>();
         if(objectsToHit.Length > 0 )
         {
-            _recoilDir = true;
+            _recoilBool = true;
         }
 
         for (int i = 0; i < objectsToHit.Length; i++)
         {
-            Enemy e = objectsToHit[i].GetComponent<Enemy>();
-            if (e && !hitEnemies.Contains(e))
+            //Enemy e = objectsToHit[i].GetComponent<Enemy>();
+            //if (e && !hitEnemies.Contains(e))
+            //{
+            //    e.EnemyHit(damage, (transform.position - objectsToHit[i].transform.position).normalized, _recoilStrength);
+            //    hitEnemies.Add(e);
+            if (objectsToHit[i].GetComponent<Enemy>() != null)
             {
-                e.EnemyHit(damage, (transform.position - objectsToHit[i].transform.position).normalized, _recoilStrength);
-                hitEnemies.Add(e);
+                objectsToHit[i].GetComponent<Enemy>().EnemyHit(damage, _recoilDir, _recoilStrength);
+            }
 
                 if (objectsToHit[i].CompareTag("Enemy"))
                 {
                     Mana += manaGain;
                     Debug.Log("mana gain" + manaGain);
                 }
-            }
+            
 
         }
     }
