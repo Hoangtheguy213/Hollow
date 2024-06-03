@@ -19,16 +19,7 @@ public class FireMan : Enemy
         rb.gravityScale = 12f;
         
     }
-    // Update is called once per frame
-    //protected override void Update()
-    //{
-    //    base.Update ();
-    //    if (!isRecoiling)
-    //    {
-    //        transform.position = Vector2.MoveTowards(transform.position, new Vector2
-    //            (Player.Instance.transform.position.x, transform.position.y),speed* Time.deltaTime);
-    //    }
-    //}
+
     protected override void UpdateEnemyStates()
     {
         if(health <= 0)

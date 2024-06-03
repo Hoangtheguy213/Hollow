@@ -26,7 +26,12 @@ public class Enemy : MonoBehaviour
         Ghost_Idle,
         Ghost_Chase,
         Ghost_Stunned,
-        Ghost_Death
+        Ghost_Death,
+
+        //Hound
+        Hound_Idle,
+        Hound_Suprised,
+        Hound_Charge
     }
     protected EnemyStates currentEnemyState;
 
