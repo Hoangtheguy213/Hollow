@@ -81,6 +81,10 @@ public class Player : MonoBehaviour
     float CastOrHealingTimer;
     [Space(5)]
 
+    [Header("Camera setting: ")]
+    [SerializeField] private float playerFallSpeedThreshold = -10;
+
+
     [HideInInspector] public PlayerStateList pState;
     private Rigidbody2D rb;
     private Animator anim;
@@ -135,6 +139,8 @@ public class Player : MonoBehaviour
         getInput();
 
         UpdateJumpVariables();
+        UpdateCameraYDampForPlayerFall();
+
         RestoreTimeScale();
         if (pState.Dashing) return;
         Move();
@@ -197,6 +203,22 @@ public class Player : MonoBehaviour
     {
         rb.velocity = new Vector2(walkSpeed * xAxist , rb.velocity.y);
         anim.SetBool("Walking",rb.velocity.x!=0 && Grounded());
+    }
+
+    void UpdateCameraYDampForPlayerFall()
+    {
+        //if falling past a certain speed threshold
+        if(rb.velocity.y < playerFallSpeedThreshold && !CameraManager.Instance.isLerpingYDamping && !CameraManager.Instance.hasLerpedYDamping)
+        {
+            StartCoroutine(CameraManager.Instance.LerpYDamping(true));
+        }
+        //if standing still or moving up
+        if(rb.velocity.y >=0 && !CameraManager.Instance.isLerpingYDamping && CameraManager.Instance.hasLerpedYDamping)
+        {
+            //reset camera function
+            CameraManager.Instance.hasLerpedYDamping = false;
+            StartCoroutine(CameraManager.Instance.LerpYDamping(false));
+        }
     }
     void StartDash()
     {

@@ -304,7 +304,7 @@ MonoBehaviour:
   recoilYSpeed: 10
   health: 0
   maxHealth: 10
-  bloodSpurt: {fileID: 9201063622585562718, guid: 72770d9bfa740e14b8cd4d2c8d10493b, type: 3}
+  bloodSpurt: {fileID: 1149379237944309843, guid: 02a822d217e56ce48b65f9e8900e2145, type: 3}
   hitFlashSpeed: 7
   timeToHeal: 1
   manaStorage: {fileID: 6944340470874357624, guid: b3c665b1e78857946b0b5bc091a2ce56, type: 3}
