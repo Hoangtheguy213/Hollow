@@ -318,6 +318,7 @@ MonoBehaviour:
   sideSpellFire: {fileID: 5567009848576159002, guid: 1871ffe3cd74aa441bec96e260d804e7, type: 3}
   downSpellFire: {fileID: 2324984385589519479}
   upSpellWater: {fileID: 5857900133062299700, guid: df9305e3deb2e1c41bfb52f3c69c09ac, type: 3}
+  playerFallSpeedThreshold: -10
   pState: {fileID: 0}
 --- !u!95 &2324984385474962542
 Animator:

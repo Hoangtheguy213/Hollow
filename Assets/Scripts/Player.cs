@@ -150,6 +150,7 @@ public class Player : MonoBehaviour
         StartDash();
         Attack();
         
+           
         FlashWhileInvincible();
         Heal();
         if (pState.healing) return;
@@ -520,6 +521,7 @@ public class Player : MonoBehaviour
             {
                 mana = Mathf.Clamp(value, 0, 1);
                 manaStorage.fillAmount = Mana;
+                
             }
         }
     }
