@@ -5446,6 +5446,14 @@ PrefabInstance:
       propertyPath: manaStorage
       value: 
       objectReference: {fileID: 4156986287919437978}
+    - target: {fileID: 2324984385474962539, guid: 73fa75ae9c4bf3d41a492eb146faf8a5, type: 3}
+      propertyPath: timeBetweenCast
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2324984385474962539, guid: 73fa75ae9c4bf3d41a492eb146faf8a5, type: 3}
+      propertyPath: timeBetweenAttack
+      value: 0.36
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 73fa75ae9c4bf3d41a492eb146faf8a5, type: 3}
 --- !u!199 &772296838849961256
@@ -5798,6 +5806,14 @@ PrefabInstance:
     - target: {fileID: 2608650619425656656, guid: 8e6aaaddb42d0264a862e6549e0d2e2b, type: 3}
       propertyPath: m_Name
       value: FireMan
+      objectReference: {fileID: 0}
+    - target: {fileID: 2608650619425656658, guid: 8e6aaaddb42d0264a862e6549e0d2e2b, type: 3}
+      propertyPath: recoilFactor
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2608650619425656658, guid: 8e6aaaddb42d0264a862e6549e0d2e2b, type: 3}
+      propertyPath: recoilLength
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 2608650619425656660, guid: 8e6aaaddb42d0264a862e6549e0d2e2b, type: 3}
       propertyPath: m_RootOrder

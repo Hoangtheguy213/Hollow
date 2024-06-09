@@ -34,7 +34,8 @@ public class Player : MonoBehaviour
 
     [Header("Attack settings:")]
     bool attack = false;
-    float timeBetweenAttack, timeSinceAttack;
+    [SerializeField] private float timeBetweenAttack;
+    private float timeSinceAttack;
 
     [SerializeField] Transform SideAttackTransform,UpAttackTransform,DownAttackTransform;
     [SerializeField] Vector2 SideAttackArea, UpAttackArea, DownAttackArea;
@@ -202,6 +203,7 @@ public class Player : MonoBehaviour
     }
     private void Move()
     {
+        if (pState.healing ) rb.velocity = new Vector2(0, 0);
         rb.velocity = new Vector2(walkSpeed * xAxist , rb.velocity.y);
         anim.SetBool("Walking",rb.velocity.x!=0 && Grounded());
     }
@@ -519,6 +521,7 @@ public class Player : MonoBehaviour
             //if mana stats change
             if (mana != value)
             {
+                
                 mana = Mathf.Clamp(value, 0, 1);
                 manaStorage.fillAmount = Mana;
                 
@@ -530,8 +533,10 @@ public class Player : MonoBehaviour
         if(Input.GetButtonUp("Cast/Healing") && CastOrHealingTimer <= 0.05f && timeSinceCast >= timeBetweenCast && Mana> manaSpellCost)
         {
             pState.casting = true;
-            timeSinceAttack = 0;
+            timeSinceCast = 0;
             StartCoroutine(CastCoroutine());
+            
+            
         }
         else
         {

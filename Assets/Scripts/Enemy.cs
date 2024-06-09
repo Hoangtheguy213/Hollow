@@ -85,6 +85,7 @@ public class Enemy : MonoBehaviour
             GameObject _GreenBlood = Instantiate(greenBlood, transform.position, Quaternion.identity);
             Destroy(_GreenBlood, 5.5f );
            rb.velocity = _hitForce * recoilFactor*_hitDirection;
+            isRecoiling = true;
         }
     }
     protected void OnCollisionStay2D(Collision2D _other)
