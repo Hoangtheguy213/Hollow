@@ -13,6 +13,14 @@ public class Ghost : Enemy
         base.Start();
         ChangeState(EnemyStates.Ghost_Idle);
     }
+    protected override void Update()
+    {
+        base.Update();
+        if (!Player.Instance.pState.alive)
+        {
+            ChangeState(EnemyStates.Ghost_Idle);
+        }
+    }
     protected override void UpdateEnemyStates()
     {
         float _dist = Vector2.Distance(transform.position, Player.Instance.transform.position);

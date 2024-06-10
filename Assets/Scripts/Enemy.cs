@@ -93,7 +93,10 @@ public class Enemy : MonoBehaviour
         if (_other.gameObject.CompareTag("Player") && !Player.Instance.pState.invincible && !Player.Instance.pState.invincible && health >0)
         {
             Attack();
-            Player.Instance.HitStopTime(0, 5, 0.5f);
+            if (Player.Instance.pState.alive)
+            {
+                Player.Instance.HitStopTime(0, 5, 0.5f);
+            }
         }
     }
 

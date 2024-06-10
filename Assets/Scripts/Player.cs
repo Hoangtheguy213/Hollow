@@ -137,25 +137,30 @@ public class Player : MonoBehaviour
     void Update()
     {
         if (pState.cutscene) return;
-        getInput();
+        if (pState.alive)
+        {
+            getInput();
+        }
+        
 
         UpdateJumpVariables();
-        UpdateCameraYDampForPlayerFall();
-
         RestoreTimeScale();
-        if (pState.Dashing) return;
-        Move();
-        Jump();
-        CastSpell();
-        Flip();
-        StartDash();
-        Attack();
+        UpdateCameraYDampForPlayerFall();
         
-           
-        FlashWhileInvincible();
-        Heal();
+        if (pState.Dashing ) return;
+        if (pState.alive)
+        {
+            Flip();
+            Move();
+            Jump();
+            StartDash();
+            Attack();
+            Heal();
+            CastSpell();
+        }
         if (pState.healing) return;
-        
+        FlashWhileInvincible();
+  
     }
 
     private void OnTriggerEnter2D(Collider2D _other)
@@ -173,6 +178,7 @@ public class Player : MonoBehaviour
     }
     void getInput()
     {
+        if (pState.healing) return;
         xAxist = Input.GetAxisRaw("Horizontal");
         yAxist = Input.GetAxisRaw("Vertical");
         attack =Input.GetButtonDown("Attack");
@@ -203,7 +209,12 @@ public class Player : MonoBehaviour
     }
     private void Move()
     {
-        if (pState.healing ) rb.velocity = new Vector2(0, 0);
+        if (pState.healing)
+        {
+            // Nếu đang healing, giữ player ở vị trí hiện tại
+            rb.velocity = new Vector2(0, rb.velocity.y);
+            return;
+        }
         rb.velocity = new Vector2(walkSpeed * xAxist , rb.velocity.y);
         anim.SetBool("Walking",rb.velocity.x!=0 && Grounded());
     }
@@ -407,33 +418,32 @@ public class Player : MonoBehaviour
     }
     public void TakeDamage(float _damage)
     {
-        if (!pState.invincible) // Check if the character is not invincible
+       if(pState.alive)
         {
-            Debug.Log("Taking damage: " + _damage);
             Health -= Mathf.RoundToInt(_damage);
-
-            Debug.Log("Health after damage: " + Health);
-            StartCoroutine(StopTakingDamage());
+            if(Health <= 0)
+            {
+                Health = 0;
+                StartCoroutine(Death());
+            }else
+            {
+                StartCoroutine(StopTakingDamage());
+            }
         }
-        else
-        {
-            Debug.Log("Currently invincible, no damage taken.");
-        }
-
 
     }
     IEnumerator StopTakingDamage()
     {
-        anim.SetTrigger("TakeDamage");
+        
         pState.invincible = true;
         GameObject _bloodSpurtparticales = Instantiate(bloodSpurt, transform.position, Quaternion.identity);
-        _bloodSpurtparticales.transform.SetParent(transform);
-        Destroy(_bloodSpurtparticales, 1.5f);
-        
        
+        Destroy(_bloodSpurtparticales, 1.5f);
+
+        anim.SetTrigger("TakeDamage");
         yield return new WaitForSeconds(1f);
         pState.invincible = false;
-        Debug.Log("No longer invincible.");
+       
     }
     void FlashWhileInvincible()
     {
@@ -474,6 +484,18 @@ public class Player : MonoBehaviour
     {
         restoreTime = true;
         yield return new WaitForSeconds(_delay);
+    }
+
+    IEnumerator Death()
+    {
+        pState.alive = false;
+        Time.timeScale = 1f;
+        GameObject _bloodSpurtparticales = Instantiate(bloodSpurt, transform.position, Quaternion.identity);
+
+        Destroy(_bloodSpurtparticales, 1.5f);
+        anim.SetTrigger("Death");
+        yield return new WaitForSeconds(0.9f);
+        StartCoroutine(UIManager.Instance.ActivateDeathSceen());
     }
     public int Health
     {

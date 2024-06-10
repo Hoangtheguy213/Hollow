@@ -1558,6 +1558,11 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!1 &805677275 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2600899554323237431, guid: a6ccb5a275e4021438f7fc02e8c76472, type: 3}
+  m_PrefabInstance: {fileID: 5195192743223192328}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &812299250
 GameObject:
   m_ObjectHideFlags: 0
@@ -5443,6 +5448,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2324984385474962539, guid: 73fa75ae9c4bf3d41a492eb146faf8a5, type: 3}
+      propertyPath: maxHealth
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 2324984385474962539, guid: 73fa75ae9c4bf3d41a492eb146faf8a5, type: 3}
       propertyPath: manaStorage
       value: 
       objectReference: {fileID: 4156986287919437978}
@@ -5681,6 +5690,14 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 1269038782300763226, guid: 63852ba00c47fec42aef9737637aeaf0, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 4.1987057
+      objectReference: {fileID: 0}
+    - target: {fileID: 2456756037478434644, guid: 63852ba00c47fec42aef9737637aeaf0, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 4.1987057
+      objectReference: {fileID: 0}
     - target: {fileID: 3037584561249666087, guid: 63852ba00c47fec42aef9737637aeaf0, type: 3}
       propertyPath: m_RootOrder
       value: 0
@@ -5890,6 +5907,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Ghost
       objectReference: {fileID: 0}
+    - target: {fileID: 3225504547922823707, guid: 95b83d85c40706e48afeec07023dff2e, type: 3}
+      propertyPath: speed
+      value: 10
+      objectReference: {fileID: 0}
     - target: {fileID: 3225504547922823711, guid: 95b83d85c40706e48afeec07023dff2e, type: 3}
       propertyPath: m_RootOrder
       value: 8
@@ -5954,6 +5975,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 3223182278827538360, guid: a6ccb5a275e4021438f7fc02e8c76472, type: 3}
+      propertyPath: deathSceen
+      value: 
+      objectReference: {fileID: 805677275}
     - target: {fileID: 8190250327303529637, guid: a6ccb5a275e4021438f7fc02e8c76472, type: 3}
       propertyPath: m_Pivot.x
       value: 0

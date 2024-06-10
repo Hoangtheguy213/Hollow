@@ -20,6 +20,21 @@ public class FireMan : Enemy
         
     }
 
+    protected override void Update()
+    {
+        base.Update();
+        if (!Player.Instance.pState.alive)
+        {
+            ChangeState(EnemyStates.FireMan_Idle);
+        }
+    }
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject.CompareTag("Enemy"))
+        {
+            transform.localScale = new Vector2(transform.localScale.x * -1, transform.localScale.y);
+        }
+    }
     protected override void UpdateEnemyStates()
     {
         if(health <= 0)
