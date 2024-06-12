@@ -5452,9 +5452,21 @@ PrefabInstance:
       value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 2324984385474962539, guid: 73fa75ae9c4bf3d41a492eb146faf8a5, type: 3}
+      propertyPath: timeToHeal
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2324984385474962539, guid: 73fa75ae9c4bf3d41a492eb146faf8a5, type: 3}
       propertyPath: manaStorage
       value: 
       objectReference: {fileID: 4156986287919437978}
+    - target: {fileID: 2324984385474962539, guid: 73fa75ae9c4bf3d41a492eb146faf8a5, type: 3}
+      propertyPath: spellDamage
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 2324984385474962539, guid: 73fa75ae9c4bf3d41a492eb146faf8a5, type: 3}
+      propertyPath: downSpellForce
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 2324984385474962539, guid: 73fa75ae9c4bf3d41a492eb146faf8a5, type: 3}
       propertyPath: timeBetweenCast
       value: 1
@@ -5692,11 +5704,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1269038782300763226, guid: 63852ba00c47fec42aef9737637aeaf0, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 4.1987057
+      value: 4.198706
       objectReference: {fileID: 0}
     - target: {fileID: 2456756037478434644, guid: 63852ba00c47fec42aef9737637aeaf0, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 4.1987057
+      value: 4.198706
       objectReference: {fileID: 0}
     - target: {fileID: 3037584561249666087, guid: 63852ba00c47fec42aef9737637aeaf0, type: 3}
       propertyPath: m_RootOrder

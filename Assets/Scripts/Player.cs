@@ -98,6 +98,7 @@ public class Player : MonoBehaviour
 
     private SpriteRenderer sr;
 
+
     private void Awake()
     {
         if(Instance !=null && Instance != this)
@@ -133,21 +134,20 @@ public class Player : MonoBehaviour
         Gizmos.DrawWireCube(DownAttackTransform.position, DownAttackArea);
     }
 
-    // Update is called once per frame
+
     void Update()
     {
         if (pState.cutscene) return;
         if (pState.alive)
         {
             getInput();
+            Heal();
         }
-        
-
         UpdateJumpVariables();
         RestoreTimeScale();
         UpdateCameraYDampForPlayerFall();
-        
-        if (pState.Dashing ) return;
+
+        if (pState.Dashing || pState.healing ) return;
         if (pState.alive)
         {
             Flip();
@@ -155,13 +155,16 @@ public class Player : MonoBehaviour
             Jump();
             StartDash();
             Attack();
-            Heal();
+            
             CastSpell();
+           
+
         }
-        if (pState.healing) return;
+        //if (pState.healing) { return; }
         FlashWhileInvincible();
-  
+
     }
+
 
     private void OnTriggerEnter2D(Collider2D _other)
     {
@@ -187,10 +190,11 @@ public class Player : MonoBehaviour
         {
             CastOrHealingTimer += Time.deltaTime;
         }
-        else
-        {
-            CastOrHealingTimer = 0;
-        }
+        //else if (!Input.GetButton("Cast/Healing"))
+        //{
+        //    CastOrHealingTimer = 0;
+        //}
+
     }
 
     //transform sprite
@@ -514,7 +518,7 @@ public class Player : MonoBehaviour
     }
     void Heal()
     {
-        if(Input.GetButton("Cast/Healing") && CastOrHealingTimer> 0.05f && Health< maxHealth && Mana>0 && !pState.Jumping && !pState.Dashing)
+        if(Input.GetButton("Cast/Healing") && CastOrHealingTimer> 0.12f && Health< maxHealth && Mana>0 && !pState.Jumping && !pState.Dashing)
         {
             pState.healing = true;
             anim.SetBool("Healing", true);
@@ -533,6 +537,7 @@ public class Player : MonoBehaviour
             anim.SetBool("Healing", false);
             healTimer = 0;
         }
+        
     }
 
     float Mana
@@ -552,7 +557,7 @@ public class Player : MonoBehaviour
     }
     void CastSpell()
     {
-        if(Input.GetButtonUp("Cast/Healing") && CastOrHealingTimer <= 0.05f && timeSinceCast >= timeBetweenCast && Mana> manaSpellCost)
+        if(Input.GetButtonUp("Cast/Healing") && CastOrHealingTimer <= 0.12f && timeSinceCast >= timeBetweenCast && Mana> manaSpellCost)
         {
             pState.casting = true;
             timeSinceCast = 0;
@@ -563,6 +568,10 @@ public class Player : MonoBehaviour
         else
         {
             timeSinceCast += Time.deltaTime;
+        }
+        if (!Input.GetButton("Cast/Healing"))
+        {
+            CastOrHealingTimer = 0;
         }
         if (Grounded())
         {

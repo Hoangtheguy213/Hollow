@@ -256,7 +256,7 @@ Rigidbody2D:
   m_AngularDrag: 0.05
   m_GravityScale: 10
   m_Material: {fileID: 6200000, guid: 004bfb6c38b054c49a7445944b056b1a, type: 2}
-  m_Interpolate: 0
+  m_Interpolate: 1
   m_SleepingMode: 1
   m_CollisionDetection: 1
   m_Constraints: 4
@@ -287,6 +287,7 @@ MonoBehaviour:
   dashTime: 0.2
   dashCoolDown: 0.35
   dashEffect: {fileID: 8450767243511250437, guid: 89c5eb335f6e85647b43f3305334f7ef, type: 3}
+  timeBetweenAttack: 0
   SideAttackTransform: {fileID: 2324984384520584997}
   UpAttackTransform: {fileID: 2324984385218234831}
   DownAttackTransform: {fileID: 2324984385198760449}
@@ -360,6 +361,7 @@ MonoBehaviour:
   healing: 0
   casting: 0
   cutscene: 0
+  alive: 1
 --- !u!1 &2324984385589519479
 GameObject:
   m_ObjectHideFlags: 0
