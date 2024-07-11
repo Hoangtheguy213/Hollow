@@ -5,7 +5,9 @@ using UnityEngine;
 public class GameManager : MonoBehaviour
 {
     public string transitionedFromScene;
-
+    public Vector2 platFormingRespawnPoint;
+    public Vector2 respawnPoint;
+    [SerializeField] bench Bench;
     public static GameManager Instance { get; private set; }
     private void Awake()
     {
@@ -18,5 +20,25 @@ public class GameManager : MonoBehaviour
             Instance = this;
         }
         DontDestroyOnLoad(gameObject);
+        Bench = FindObjectOfType<bench>();
+    }
+    public void RespawnPlayer()
+    {
+        if(Bench != null)
+        {
+            if (Bench.interacted)
+            {
+                respawnPoint = Bench.transform.position;
+            }
+        }
+        else
+        {
+            respawnPoint = platFormingRespawnPoint;
+        }
+        Player.Instance.transform.position = respawnPoint;
+
+        StartCoroutine(UIManager.Instance.DeactiveDeathSceen());
+        Player.Instance.Respawned();
+
     }
 }

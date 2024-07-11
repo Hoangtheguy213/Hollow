@@ -501,6 +501,16 @@ public class Player : MonoBehaviour
         yield return new WaitForSeconds(0.9f);
         StartCoroutine(UIManager.Instance.ActivateDeathSceen());
     }
+
+    public void Respawned()
+    {
+        if(!pState.alive)
+        {
+            pState.alive=true;
+            Health = maxHealth;
+            anim.Play("Idle");
+        }
+    }
     public int Health
     {
         get { return health; }

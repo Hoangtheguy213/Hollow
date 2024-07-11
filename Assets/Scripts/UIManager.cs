@@ -29,4 +29,10 @@ public class UIManager : MonoBehaviour
         yield return new WaitForSeconds(0.8f);
         deathSceen.SetActive(true);
     }
+    public IEnumerator DeactiveDeathSceen()
+    {
+        yield return new WaitForSeconds(0.5f);
+        deathSceen.SetActive(false);
+        StartCoroutine(sceneFader.Fade(SceneFader.FadeDirection.Out));
+    }
 }
