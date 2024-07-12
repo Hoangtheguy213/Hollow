@@ -9,6 +9,14 @@ public class UIManager : MonoBehaviour
 
     [SerializeField] GameObject deathSceen;
 
+    [SerializeField] GameObject halfMana, fullMana;
+
+    public enum ManaState
+    {
+        FullMana,
+        HalfMana
+    }
+    public ManaState manaState;
     private void Awake()
     {
         if (Instance != null && Instance != this)
@@ -21,6 +29,22 @@ public class UIManager : MonoBehaviour
         }
         DontDestroyOnLoad(gameObject);
         sceneFader = GetComponentInChildren<SceneFader>(); 
+    }
+
+    public void SwitchMana(ManaState _manaState)
+    {
+        switch(_manaState)
+        {
+            case ManaState.FullMana:
+                halfMana.SetActive(false);
+                fullMana.SetActive(true);
+                break;
+            case ManaState.HalfMana:
+                halfMana.SetActive(true);
+                fullMana.SetActive(false);
+                break;
+        }
+        manaState = _manaState;
     }
     public IEnumerator ActivateDeathSceen()
     {

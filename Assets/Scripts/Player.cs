@@ -68,6 +68,7 @@ public class Player : MonoBehaviour
     [SerializeField] float mana;
     [SerializeField] float manaDrainSpeed;
     [SerializeField] float manaGain;
+    bool halfMana;
     [Space(5)]
 
     [Header("Spell Settings: ")]
@@ -155,14 +156,14 @@ public class Player : MonoBehaviour
             Jump();
             StartDash();
             Attack();
-            
             CastSpell();
-           
-
         }
         //if (pState.healing) { return; }
         FlashWhileInvincible();
-
+        if (Input.GetKeyDown(KeyCode.L))
+        {
+            StartCoroutine(Death());
+        }
     }
 
 
@@ -265,6 +266,9 @@ public class Player : MonoBehaviour
         pState.Dashing = false;
         yield return new WaitForSeconds(dashCoolDown);
         canDash = true;
+
+      
+        
     }
 
     public IEnumerator WalkIntoNewScene(Vector2 _exitDir, float _delay)
@@ -500,6 +504,9 @@ public class Player : MonoBehaviour
         anim.SetTrigger("Death");
         yield return new WaitForSeconds(0.9f);
         StartCoroutine(UIManager.Instance.ActivateDeathSceen());
+
+        yield return new WaitForSeconds(0.9f);
+        Instantiate(GameManager.Instance.Shade , transform.position, Quaternion.identity);
     }
 
     public void Respawned()
@@ -507,9 +514,18 @@ public class Player : MonoBehaviour
         if(!pState.alive)
         {
             pState.alive=true;
+            halfMana = true;
+            UIManager.Instance.SwitchMana(UIManager.ManaState.HalfMana);
+            Mana = 0;
             Health = maxHealth;
             anim.Play("Idle");
         }
+    }
+
+    public void RestoreMana()
+    {
+        halfMana=false;
+        UIManager.Instance.SwitchMana(UIManager.ManaState.FullMana);
     }
     public int Health
     {
@@ -558,8 +574,15 @@ public class Player : MonoBehaviour
             //if mana stats change
             if (mana != value)
             {
+                if (!halfMana)
+                {
+                    mana = Mathf.Clamp(value, 0, 1);
+                }
+                else
+                {
+                    mana = Mathf.Clamp(value, 0, 0.5f);
+                }
                 
-                mana = Mathf.Clamp(value, 0, 1);
                 manaStorage.fillAmount = Mana;
                 
             }

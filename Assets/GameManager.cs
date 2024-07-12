@@ -9,6 +9,8 @@ public class GameManager : MonoBehaviour
     public Vector2 respawnPoint;
     [SerializeField] bench Bench;
     public static GameManager Instance { get; private set; }
+
+    public GameObject Shade;
     private void Awake()
     {
         if (Instance != null && Instance != this)

@@ -31,7 +31,13 @@ public class Enemy : MonoBehaviour
         //Hound
         Hound_Idle,
         Hound_Suprised,
-        Hound_Charge
+        Hound_Charge,
+
+        //Shade
+        Shade_Idle,
+        Shade_Chase,
+        Shade_Stunned,
+        Shade_Death
     }
     protected EnemyStates currentEnemyState;
 
