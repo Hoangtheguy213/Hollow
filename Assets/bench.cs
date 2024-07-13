@@ -26,13 +26,14 @@ public class Bench : MonoBehaviour
             SaveData.Instance.benchSceneName = SceneManager.GetActiveScene().name;
             SaveData.Instance.benchPos = new Vector2(gameObject.transform.position.x, gameObject.transform.position.y);
             SaveData.Instance.SaveBench();
+            SaveData.Instance.SavePlayerData();
         }
     }
-    private void OnTriggerExit2D(Collider2D collision)
-    {
-        if (collision.CompareTag("Player"))
-        {
-            interacted = false;
-        }
-    }
+    //private void OnTriggerExit2D(Collider2D collision)
+    //{
+    //    if (collision.CompareTag("Player"))
+    //    {
+    //        interacted = false;
+    //    }
+    //}
 }

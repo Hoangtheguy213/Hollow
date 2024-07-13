@@ -17,11 +17,22 @@ public struct SaveData
     public string benchSceneName;
     public Vector2 benchPos;
 
+    //player stuff
+    public int playerHealth;
+    public float playerMana;
+    public bool playerHalfMana;
+    public Vector2 playerPos;
+    public string lastScene;
+
     public void Initialize()
     {
         if(!File.Exists(Application.persistentDataPath + "/save.bench.data"))//if file doesnt exist , create new file
         {
             BinaryWriter writer = new BinaryWriter(File.Create(Application.persistentDataPath + "/save.bench.data"));
+        }
+        if(!File.Exists(Application.persistentDataPath + "/save.player.data"))//if file doesnt exist , create new file
+        {
+            BinaryWriter writer = new BinaryWriter(File.Create(Application.persistentDataPath + "/save.player.data"));
         }
 
         if (sceneNames == null)
@@ -51,5 +62,82 @@ public struct SaveData
                 benchPos.y = reader.ReadSingle();
             }
         }
+    }
+    public void SavePlayerData()
+    {
+        using (BinaryWriter writer = new BinaryWriter(File.OpenWrite(Application.persistentDataPath + "/save.player.data")))
+        {
+            playerHealth = Player.Instance.Health; 
+            writer.Write(playerHealth);
+
+            playerMana = Player.Instance.Mana;
+            writer.Write(playerMana);
+            playerHalfMana = Player.Instance.halfMana;
+            writer.Write(playerHalfMana);   
+
+            playerPos = Player.Instance.transform.position;
+            writer.Write(playerPos.x);
+            writer.Write(playerPos.y);
+
+            lastScene = SceneManager.GetActiveScene().name;
+            writer.Write(lastScene);    
+        }
+    }
+    public void LoadPlayerData()
+    {
+        if (File.Exists(Application.persistentDataPath + "/save.player.data"))
+        {
+            using (BinaryReader reader = new BinaryReader(File.OpenRead(Application.persistentDataPath + "/save.player.data")))
+            {
+                playerHealth = reader.ReadInt32();
+                playerHalfMana = reader.ReadBoolean();
+                playerMana = reader.ReadSingle();
+                playerPos.x = reader.ReadSingle();
+                playerPos.y = reader.ReadSingle();
+                lastScene = reader.ReadString();
+
+                SceneManager.LoadScene(lastScene);
+                Player.Instance.transform.position = playerPos;
+                Player.Instance.Health = playerHealth;
+                Player.Instance.halfMana = playerHalfMana;
+                Player.Instance.Mana = playerMana;
+                
+
+            }
+        }
+        else
+        {
+            Debug.Log("file doesn't exist");
+            Player.Instance.halfMana = false;
+            Player.Instance.Health = Player.Instance.maxHealth;
+            Player.Instance.Mana = 0.5f;
+        }
+    }
+
+    public void DeletePlayerData()
+    {
+        string path = Application.persistentDataPath + "/save.player.data";
+        if (File.Exists(path))
+        {
+            File.Delete(path);
+            Debug.Log("Player save data deleted.");
+        }
+    }
+
+    public void DeleteShadeData()
+    {
+        string path = Application.persistentDataPath + "/save.shade.data";
+        if (File.Exists(path))
+        {
+            File.Delete(path);
+            Debug.Log("Shade save data deleted.");
+        }
+    }
+
+    public void DeleteAllSaveData()
+    {
+        //DeleteBenchData();
+        DeletePlayerData();
+        DeleteShadeData();
     }
 }

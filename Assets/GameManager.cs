@@ -27,6 +27,16 @@ public class GameManager : MonoBehaviour
 
         DontDestroyOnLoad(gameObject);
         bench = FindObjectOfType<Bench>();
+
+        /* The line below is used for del all the temp save*/
+        //SaveData.Instance.DeleteAllSaveData();
+    }
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.O))
+        {
+            SaveData.Instance.SavePlayerData();
+        }
     }
 
     public void SaveScene()

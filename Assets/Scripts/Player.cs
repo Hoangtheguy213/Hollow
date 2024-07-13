@@ -68,7 +68,7 @@ public class Player : MonoBehaviour
     [SerializeField] float mana;
     [SerializeField] float manaDrainSpeed;
     [SerializeField] float manaGain;
-    bool halfMana;
+    public bool halfMana;
     [Space(5)]
 
     [Header("Spell Settings: ")]
@@ -121,10 +121,12 @@ public class Player : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         anim = GetComponent<Animator>();   
         sr= GetComponent<SpriteRenderer>();
+        
         gravity =rb.gravityScale;
         Mana = mana;
         manaStorage.fillAmount = Mana;
         Health = maxHealth;
+        SaveData.Instance.LoadPlayerData();
     }
 
     //tao vien hitbox cho attack
@@ -582,7 +584,7 @@ public class Player : MonoBehaviour
         
     }
 
-    float Mana
+    public float Mana
     {
         get { return mana; }
         set
