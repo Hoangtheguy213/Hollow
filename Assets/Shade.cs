@@ -40,7 +40,7 @@ public class Shade : Enemy
         switch (GetCurrentEnemyState)
         {
             case EnemyStates.Shade_Idle:
-                rb.velocity = new Vector2(0, 0);
+                //rb.velocity = new Vector2(0, 0);
                 if (_dist < chaseDistance)
                 {
                     ChangeState(EnemyStates.Shade_Chase);

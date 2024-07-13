@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class Bench : MonoBehaviour
 {
@@ -21,6 +22,17 @@ public class Bench : MonoBehaviour
         if(collision.CompareTag("Player") && Input.GetButton("Interact"))       
         {
             interacted = true;
+
+            SaveData.Instance.benchSceneName = SceneManager.GetActiveScene().name;
+            SaveData.Instance.benchPos = new Vector2(gameObject.transform.position.x, gameObject.transform.position.y);
+            SaveData.Instance.SaveBench();
+        }
+    }
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        if (collision.CompareTag("Player"))
+        {
+            interacted = false;
         }
     }
 }

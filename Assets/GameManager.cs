@@ -11,7 +11,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] Bench bench;
     public static GameManager Instance { get; private set; }
 
-    public GameObject Shade;
+    public GameObject shade;
     private void Awake()
     {
         SaveData.Instance.Initialize();
@@ -36,12 +36,14 @@ public class GameManager : MonoBehaviour
     }
     public void RespawnPlayer()
     {
-        if(bench != null)
+        SaveData.Instance.LoadBench();
+        if(SaveData.Instance.benchSceneName != null)// load the bench's scene if exist
         {
-            if (bench.interacted)
-            {
-                respawnPoint = bench.transform.position;
-            }
+            SceneManager.LoadScene(SaveData.Instance.benchSceneName);
+        }
+        if(SaveData.Instance.benchPos != null)// set the respawn to the bench's pos
+        {
+            respawnPoint = SaveData.Instance.benchPos;
         }
         else
         {

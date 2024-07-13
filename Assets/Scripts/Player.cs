@@ -518,11 +518,11 @@ public class Player : MonoBehaviour
         Destroy(_bloodSpurtparticales, 1.5f);
         anim.SetTrigger("Death");
         
-        yield return new WaitForSeconds(0.3f);
+        yield return new WaitForSeconds(0.9f);
         StartCoroutine(UIManager.Instance.ActivateDeathSceen());
 
         yield return new WaitForSeconds(0.9f);
-        Instantiate(GameManager.Instance.Shade , transform.position, Quaternion.identity);
+        Instantiate(GameManager.Instance.shade , transform.position, Quaternion.identity);
     }
 
     public void Respawned()
