@@ -94,6 +94,7 @@ public class Player : MonoBehaviour
     private bool canDash;
     private bool dashed;
     private float gravity;
+    bool openMap;
 
     public static Player Instance;
 
@@ -142,8 +143,10 @@ public class Player : MonoBehaviour
         if (pState.alive)
         {
             getInput();
+            ToggleMap();
             Heal();
-        }
+           
+        } 
         UpdateJumpVariables();
         RestoreTimeScale();
         UpdateCameraYDampForPlayerFall();
@@ -186,6 +189,7 @@ public class Player : MonoBehaviour
         xAxist = Input.GetAxisRaw("Horizontal");
         yAxist = Input.GetAxisRaw("Vertical");
         attack =Input.GetButtonDown("Attack");
+        openMap = Input.GetButton("Map");
 
         if (Input.GetButton("Cast/Healing"))
         {
@@ -198,6 +202,17 @@ public class Player : MonoBehaviour
 
     }
 
+    void ToggleMap()
+    {
+        if(openMap)
+        {
+            UIManager.Instance.mapHandler.SetActive(true);
+        }
+        else
+        {
+            UIManager.Instance.mapHandler.SetActive(false);
+        }
+    }
     //transform sprite
     void Flip()
     {
@@ -502,7 +517,8 @@ public class Player : MonoBehaviour
 
         Destroy(_bloodSpurtparticales, 1.5f);
         anim.SetTrigger("Death");
-        yield return new WaitForSeconds(0.9f);
+        
+        yield return new WaitForSeconds(0.3f);
         StartCoroutine(UIManager.Instance.ActivateDeathSceen());
 
         yield return new WaitForSeconds(0.9f);

@@ -44,3 +44,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   transitionedFromScene: 
+  platFormingRespawnPoint: {x: 0, y: 0}
+  respawnPoint: {x: 0, y: 0}
+  Bench: {fileID: 0}
+  Shade: {fileID: 0}

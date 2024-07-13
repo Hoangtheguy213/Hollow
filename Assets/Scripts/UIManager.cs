@@ -11,6 +11,7 @@ public class UIManager : MonoBehaviour
 
     [SerializeField] GameObject halfMana, fullMana;
 
+    public GameObject mapHandler;
     public enum ManaState
     {
         FullMana,
