@@ -27,12 +27,26 @@ public class SceneTransition : MonoBehaviour
     {
         if (_other.CompareTag("Player"))
         {
+            CheckShadeData();
+
             GameManager.Instance.transitionedFromScene = SceneManager.GetActiveScene().name;
 
             Player.Instance.pState.cutscene = true;
             Player.Instance.pState.invincible = true;
 
             StartCoroutine(UIManager.Instance.sceneFader.FadeAndLoadScene(SceneFader.FadeDirection.In, transitionTo));
+        }
+    }
+    void CheckShadeData()
+    {
+        GameObject[] enemyObjects = GameObject.FindGameObjectsWithTag("Enemy");
+         
+        for(int i = 0; i < enemyObjects.Length; i++)
+        {
+            if (enemyObjects[i].GetComponent<Shade>() != null)
+            {
+                SaveData.Instance.SaveShadeData();
+            }
         }
     }
 }

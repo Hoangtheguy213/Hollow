@@ -46,5 +46,5 @@ MonoBehaviour:
   transitionedFromScene: 
   platFormingRespawnPoint: {x: 0, y: 0}
   respawnPoint: {x: 0, y: 0}
-  Bench: {fileID: 0}
-  Shade: {fileID: 0}
+  bench: {fileID: 0}
+  shade: {fileID: 4326814701761490932, guid: 9cb057a8dd8329f4d9a0181216d8c822, type: 3}

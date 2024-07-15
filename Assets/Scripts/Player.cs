@@ -126,6 +126,11 @@ public class Player : MonoBehaviour
         Mana = mana;
         manaStorage.fillAmount = Mana;
         Health = maxHealth;
+        if (Health == 0)
+        {
+            pState.alive = false;
+            GameManager.Instance.RespawnPlayer();
+        }
         SaveData.Instance.LoadPlayerData();
     }
 
@@ -519,7 +524,12 @@ public class Player : MonoBehaviour
 
         Destroy(_bloodSpurtparticales, 1.5f);
         anim.SetTrigger("Death");
-        
+
+        //corpse cant be touch when player dead
+        rb.constraints = RigidbodyConstraints2D.FreezePosition;
+        GetComponent<BoxCollider2D>().enabled = false;
+
+
         yield return new WaitForSeconds(0.9f);
         StartCoroutine(UIManager.Instance.ActivateDeathSceen());
 
@@ -531,6 +541,9 @@ public class Player : MonoBehaviour
     {
         if(!pState.alive)
         {
+            rb.constraints = RigidbodyConstraints2D.None;
+            rb.constraints = RigidbodyConstraints2D.FreezeRotation;
+            GetComponent<BoxCollider2D>().enabled = true;
             pState.alive=true;
             halfMana = true;
             UIManager.Instance.SwitchMana(UIManager.ManaState.HalfMana);

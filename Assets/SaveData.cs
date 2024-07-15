@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.IO;
 using UnityEngine.SceneManagement;
+using Unity.Mathematics;
 
 
 [System.Serializable]
@@ -24,6 +25,12 @@ public struct SaveData
     public Vector2 playerPos;
     public string lastScene;
 
+    //enemy stuff
+    //Shade stuff
+    public Vector2 shadePos;
+    public string sceneWithShade;
+    public Quaternion shadeRot;
+
     public void Initialize()
     {
         if(!File.Exists(Application.persistentDataPath + "/save.bench.data"))//if file doesnt exist , create new file
@@ -33,6 +40,10 @@ public struct SaveData
         if(!File.Exists(Application.persistentDataPath + "/save.player.data"))//if file doesnt exist , create new file
         {
             BinaryWriter writer = new BinaryWriter(File.Create(Application.persistentDataPath + "/save.player.data"));
+        }
+        if(!File.Exists(Application.persistentDataPath + "/save.shade.data"))//if file doesnt exist , create new file
+        {
+            BinaryWriter writer = new BinaryWriter(File.Create(Application.persistentDataPath + "/save.shade.data"));
         }
 
         if (sceneNames == null)
@@ -55,6 +66,7 @@ public struct SaveData
     {
         if(File.Exists(Application.persistentDataPath + "/save.bench.data"))
         {
+
             using(BinaryReader reader = new BinaryReader(File.OpenRead(Application.persistentDataPath + "/save.bench.data")))
             {
                 benchSceneName = reader.ReadString();
@@ -114,6 +126,48 @@ public struct SaveData
         }
     }
 
+    public void SaveShadeData()
+    {
+        using (BinaryWriter writer = new BinaryWriter(File.OpenWrite(Application.persistentDataPath + "/save.shade.data")))
+        {
+            sceneWithShade = SceneManager.GetActiveScene().name;
+            shadePos = Shade.Instance.transform.position;
+            shadeRot = Shade.Instance.transform.rotation;
+
+            writer.Write(sceneWithShade);
+
+            writer.Write(shadePos.x);
+            writer.Write(shadePos.y);
+
+            writer.Write(shadeRot.x);
+            writer.Write(shadeRot.y);
+            writer.Write(shadeRot.z);
+            writer.Write(shadeRot.w);
+        }
+    }
+    public void LoadShadeData()
+    {
+        if (File.Exists(Application.persistentDataPath + "/save.shade.data"))
+        {
+            using (BinaryReader reader = new BinaryReader(File.OpenRead(Application.persistentDataPath + "/save.shade.data")))
+            {
+                sceneWithShade= reader.ReadString();
+                shadePos.x = reader.ReadSingle();
+                shadePos.y = reader.ReadSingle();
+
+                float rotationX = reader.ReadSingle(); 
+                float rotationY = reader.ReadSingle();
+                float rotationZ = reader.ReadSingle();
+                float rotationW = reader.ReadSingle();
+                shadeRot = new Quaternion( rotationX, rotationY, rotationZ,rotationW);
+
+            }
+        }
+        else
+        {
+            Debug.Log("shade doesnt exist");
+        }
+    }
     public void DeletePlayerData()
     {
         string path = Application.persistentDataPath + "/save.player.data";

@@ -20,6 +20,7 @@ public class Shade : Enemy
         {
             Instance = this;
         }
+        SaveData.Instance.SaveShadeData();
     }
     protected override void Start()
     {
@@ -96,6 +97,7 @@ public class Shade : Enemy
         if (GetCurrentEnemyState == EnemyStates.Shade_Death)
         {
             Player.Instance.RestoreMana();
+            SaveData.Instance.SavePlayerData();
             anim.SetTrigger("Death");
             Destroy(gameObject, 0.5f);
         }

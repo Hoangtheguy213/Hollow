@@ -23,13 +23,24 @@ public class GameManager : MonoBehaviour
         {
             Instance = this;
         }
+        if(Player.Instance  != null)
+        {
+            if (Player.Instance.halfMana)
+            {
+                SaveData.Instance.LoadShadeData();
+                if(SaveData.Instance.sceneWithShade ==SceneManager.GetActiveScene().name || SaveData.Instance.sceneWithShade == "")
+                {
+                    Instantiate(shade, SaveData.Instance.shadePos, SaveData.Instance.shadeRot);
+                }
+            }
+        }
         SaveScene();
 
         DontDestroyOnLoad(gameObject);
         bench = FindObjectOfType<Bench>();
 
         /* The line below is used for del all the temp save*/
-        //SaveData.Instance.DeleteAllSaveData();
+        SaveData.Instance.DeleteAllSaveData();
     }
     private void Update()
     {
