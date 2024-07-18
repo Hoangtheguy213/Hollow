@@ -57,9 +57,13 @@ public class GameManager : MonoBehaviour
     }
     public void RespawnPlayer()
     {
+        
         SaveData.Instance.LoadBench();
-        if(SaveData.Instance.benchSceneName != null)// load the bench's scene if exist
+        
+        if (SaveData.Instance.benchSceneName != null)// load the bench's scene if exist
         {
+            //transitionedFromScene = SceneManager.GetActiveScene().name;
+            transitionedFromScene = SaveData.Instance.benchSceneName;
             SceneManager.LoadScene(SaveData.Instance.benchSceneName);
         }
         if(SaveData.Instance.benchPos != null)// set the respawn to the bench's pos
