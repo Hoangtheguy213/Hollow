@@ -58,7 +58,7 @@ Transform:
   m_LocalScale: {x: 2, y: 2, z: 2}
   m_Children: []
   m_Father: {fileID: 2324984385474962538}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2324984385198760448
 GameObject:
@@ -88,7 +88,7 @@ Transform:
   m_LocalScale: {x: 3, y: 3, z: 3}
   m_Children: []
   m_Father: {fileID: 2324984385474962538}
-  m_RootOrder: 3
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2324984385218234830
 GameObject:
@@ -118,7 +118,7 @@ Transform:
   m_LocalScale: {x: 3, y: 3, z: 3}
   m_Children: []
   m_Father: {fileID: 2324984385474962538}
-  m_RootOrder: 2
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2324984385474962532
 GameObject:
@@ -154,6 +154,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 2324984384071011867}
+  - {fileID: 8046366654028109099}
   - {fileID: 2324984384520584997}
   - {fileID: 2324984385218234831}
   - {fileID: 2324984385198760449}
@@ -312,6 +313,7 @@ MonoBehaviour:
   mana: 0.5
   manaDrainSpeed: 0.2
   manaGain: 0.2
+  halfMana: 0
   manaSpellCost: 0.1
   timeBetweenCast: 2
   spellDamage: 10
@@ -319,8 +321,18 @@ MonoBehaviour:
   sideSpellFire: {fileID: 5567009848576159002, guid: 1871ffe3cd74aa441bec96e260d804e7, type: 3}
   downSpellFire: {fileID: 2324984385589519479}
   upSpellWater: {fileID: 5857900133062299700, guid: df9305e3deb2e1c41bfb52f3c69c09ac, type: 3}
+  wallSlidingSpeed: 2
+  wallCheck: {fileID: 0}
+  wallLayer:
+    serializedVersion: 2
+    m_Bits: 0
+  wallJumpingDuration: 0
+  wallJumpingPower: {x: 0, y: 0}
   playerFallSpeedThreshold: -10
   pState: {fileID: 0}
+  unlockWallJump: 0
+  unlockDash: 0
+  unlockCastSpell: 0
 --- !u!95 &2324984385474962542
 Animator:
   serializedVersion: 3
@@ -393,7 +405,7 @@ Transform:
   m_LocalScale: {x: 8, y: 8, z: 5}
   m_Children: []
   m_Father: {fileID: 2324984385474962538}
-  m_RootOrder: 5
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &2324984385589519483
 SpriteRenderer:
@@ -435,7 +447,7 @@ SpriteRenderer:
   m_SortingLayerID: 1132358853
   m_SortingLayer: 1
   m_SortingOrder: 0
-  m_Sprite: {fileID: -4050956828587923592, guid: 9da3bdad4e6950f4dbd6728382c160ee, type: 3}
+  m_Sprite: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -443,7 +455,7 @@ SpriteRenderer:
   m_Size: {x: 0.96, y: 0.96}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!95 &2324984385589519482
@@ -481,6 +493,36 @@ CircleCollider2D:
   m_Offset: {x: 0.014130192, y: 0.0066955984}
   serializedVersion: 2
   m_Radius: 0.07552415
+--- !u!1 &5708778072599083700
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8046366654028109099}
+  m_Layer: 0
+  m_Name: Wall Check
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &8046366654028109099
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5708778072599083700}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.3, y: -0.3, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 2324984385474962538}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &8990750609035108891
 GameObject:
   m_ObjectHideFlags: 0
@@ -512,7 +554,7 @@ Transform:
   m_LocalScale: {x: 2, y: 2, z: 2}
   m_Children: []
   m_Father: {fileID: 2324984385474962538}
-  m_RootOrder: 4
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!95 &7499434198060876892
 Animator:
