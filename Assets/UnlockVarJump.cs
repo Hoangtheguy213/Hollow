@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class UnlockCastSpell : MonoBehaviour
+public class UnlockVarJump : MonoBehaviour
 {
     bool used;
     [SerializeField] GameObject particals;

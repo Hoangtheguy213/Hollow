@@ -111,9 +111,8 @@ public class Player : MonoBehaviour
     public static Player Instance;
 
     //unlock stuff variable
-    public bool unlockWallJump;
-    public bool unlockDash;
-    public bool unlockVarJump;
+    public bool unlockWallJump, unlockDash, unlockVarJump;
+    public bool unlockSideSpell, unlockUpSpell, unlockDownSpell;
 
     private SpriteRenderer sr;
 
@@ -680,12 +679,13 @@ public class Player : MonoBehaviour
 
     IEnumerator CastCoroutine()
     {
-        anim.SetBool("Casting", true);
-        yield return new WaitForSeconds(0.15f);
+        
 
         //side cast
-        if (yAxist == 0 || (yAxist < 0 && Grounded()))
+        if ((yAxist == 0 || (yAxist < 0 && Grounded())) && unlockSideSpell)
         {
+            anim.SetBool("Casting", true);
+            yield return new WaitForSeconds(0.15f);
             GameObject _fireball = Instantiate(sideSpellFire, SideAttackTransform.position, Quaternion.identity);
 
             //flip fireball
@@ -698,20 +698,32 @@ public class Player : MonoBehaviour
                 _fireball.transform.eulerAngles = new Vector2(_fireball.transform.eulerAngles.x, 180);
             }
             pState.recoilingX = true;
+
+            Mana -= manaSpellCost;
+            yield return new WaitForSeconds(0.35f);
         }
         //up cast
-        else if (yAxist > 0)
+        else if ((yAxist > 0) && unlockUpSpell)
         {
+            anim.SetBool("Casting", true);
+            yield return new WaitForSeconds(0.15f);
             Instantiate(upSpellWater, transform);
             rb.velocity = Vector2.zero;
+
+            Mana -= manaSpellCost;
+            yield return new WaitForSeconds(0.35f);
         }
         //down cast
-        else if (yAxist < 0 && !Grounded())
+        else if ((yAxist < 0 && !Grounded()) && unlockDownSpell)
         {
+            anim.SetBool("Casting", true);
+            yield return new WaitForSeconds(0.15f);
             downSpellFire.SetActive(true);
+
+            Mana -= manaSpellCost;
+            yield return new WaitForSeconds(0.35f);
         }
-        Mana -= manaSpellCost;
-        yield return new WaitForSeconds(0.35f);
+        
         anim.SetBool("Casting", false);
         pState.casting = false;
     }

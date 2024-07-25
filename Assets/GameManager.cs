@@ -47,6 +47,7 @@ public class GameManager : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.O))
         {
             SaveData.Instance.SavePlayerData();
+            Debug.Log("Player data saved");
         }
     }
 

@@ -29,6 +29,8 @@ public struct SaveData
     public bool playerUnlockDash;
     public bool playerUnlockVarJump;
 
+    public bool playerUnlockSideSpell, playerUnlockUpSpell, playerUnlockDownSpell;
+
     //enemy stuff
     //Shade stuff
     public Vector2 shadePos;
@@ -85,11 +87,11 @@ public struct SaveData
         {
             playerHealth = Player.Instance.Health;
             writer.Write(playerHealth);
-
+            playerHalfMana = Player.Instance.halfMana;
+            writer.Write(playerHalfMana);
             playerMana = Player.Instance.Mana;
             writer.Write(playerMana);
-            playerHalfMana = Player.Instance.halfMana;
-            writer.Write(playerHalfMana);   
+               
 
             playerUnlockWallJump = Player.Instance.unlockWallJump;
             writer.Write(playerUnlockWallJump);
@@ -99,6 +101,13 @@ public struct SaveData
 
             playerUnlockVarJump = Player.Instance.unlockVarJump;
             writer.Write(playerUnlockVarJump);
+
+            playerUnlockSideSpell = Player.Instance.unlockSideSpell;
+            writer.Write(playerUnlockSideSpell);
+            playerUnlockUpSpell = Player.Instance.unlockUpSpell;
+            writer.Write(playerUnlockUpSpell);
+            playerUnlockDownSpell = Player.Instance.unlockDownSpell;
+            writer.Write(playerUnlockDownSpell);
 
             playerPos = Player.Instance.transform.position;
             writer.Write(playerPos.x);
@@ -117,36 +126,52 @@ public struct SaveData
                 playerHealth = reader.ReadInt32();
                 playerHalfMana = reader.ReadBoolean();
                 playerMana = reader.ReadSingle();
-                playerPos.x = reader.ReadSingle();
-                playerPos.y = reader.ReadSingle();
-                lastScene = reader.ReadString();
 
                 playerUnlockWallJump = reader.ReadBoolean();
                 playerUnlockDash= reader.ReadBoolean();
                 playerUnlockVarJump= reader.ReadBoolean();
 
-                SceneManager.LoadScene(lastScene);
-                Player.Instance.transform.position = playerPos;
+                playerUnlockSideSpell = reader.ReadBoolean();
+                playerUnlockUpSpell= reader.ReadBoolean();
+                playerUnlockDownSpell= reader.ReadBoolean();
+
+                playerPos.x = reader.ReadSingle();
+                playerPos.y = reader.ReadSingle();
+                lastScene = reader.ReadString();
+                
+                
                 Player.Instance.Health = playerHealth;
                 Player.Instance.halfMana = playerHalfMana;
                 Player.Instance.Mana = playerMana;
-                
+
                 Player.Instance.unlockWallJump = playerUnlockWallJump;
                 Player.Instance.unlockDash = playerUnlockDash;
                 Player.Instance.unlockVarJump = playerUnlockVarJump;
 
+                Player.Instance.unlockSideSpell = playerUnlockSideSpell;
+                Player.Instance.unlockUpSpell = playerUnlockUpSpell;
+                Player.Instance.unlockDownSpell = playerUnlockDownSpell;
+
+                Player.Instance.transform.position = playerPos;
+                SceneManager.LoadScene(lastScene);
             }
         }
         else
         {
             Debug.Log("file doesn't exist");
-            Player.Instance.halfMana = false;
+            
             Player.Instance.Health = Player.Instance.maxHealth;
+            Player.Instance.halfMana = false;
             Player.Instance.Mana = 0.5f;
+            
 
             Player.Instance.unlockWallJump = false;
             Player.Instance.unlockDash = false;
             Player.Instance.unlockVarJump= false;
+
+            Player.Instance.unlockSideSpell = false;
+            Player.Instance.unlockUpSpell = false;
+            Player.Instance.unlockDownSpell = false;
         }
     }
 
