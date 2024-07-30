@@ -38,8 +38,9 @@ public class UnlockVarJump : MonoBehaviour
 
         yield return new WaitForSeconds(4f);
         Player.Instance.unlockVarJump = true;
-        SaveData.Instance.SavePlayerData();
         canvasUI.SetActive(false);
+        SaveData.Instance.SavePlayerData();
+        
         Destroy(gameObject);
     }
 }

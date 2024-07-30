@@ -1,8 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics.SymbolStore;
 using UnityEngine;
 
-public class UnlockSideSpell : MonoBehaviour
+public class UnlockWallJump : MonoBehaviour
 {
     bool used;
     [SerializeField] GameObject particals;
@@ -10,7 +11,7 @@ public class UnlockSideSpell : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        if (Player.Instance.unlockSideSpell)
+        if (Player.Instance.unlockWallJump)
         {
             Destroy(gameObject);
         }
@@ -19,13 +20,13 @@ public class UnlockSideSpell : MonoBehaviour
     // Update is called once per frame
     private void OnTriggerEnter2D(Collider2D _collision)
     {
-        if (_collision.CompareTag("Player") & !used)
+        if(_collision.CompareTag("Player") & !used)
         {
             used = true;
             GameObject _particals = Instantiate(particals, transform.position, Quaternion.identity);
             Destroy(_particals, 0.5f);
             StartCoroutine(ShowUI());
-
+            
         }
     }
     IEnumerator ShowUI()
@@ -37,9 +38,10 @@ public class UnlockSideSpell : MonoBehaviour
         canvasUI.SetActive(true);
 
         yield return new WaitForSeconds(4f);
-        Player.Instance.unlockSideSpell = true;
-        SaveData.Instance.SavePlayerData();
+        Player.Instance.unlockWallJump = true;
         canvasUI.SetActive(false);
+        SaveData.Instance.SavePlayerData();
+        
         Destroy(gameObject);
     }
 }

@@ -2,15 +2,17 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class UnlockDownSpell : MonoBehaviour
+public class IncreaseMaxHealth : MonoBehaviour
 {
     bool used;
     [SerializeField] GameObject particals;
     [SerializeField] GameObject canvasUI;
+
+    [SerializeField] HeartShard heartShard;
     // Start is called before the first frame update
     void Start()
     {
-        if (Player.Instance.unlockDownSpell)
+        if (Player.Instance.maxHealth >= Player.Instance.maxTotalHealth)
         {
             Destroy(gameObject);
         }
@@ -35,11 +37,15 @@ public class UnlockDownSpell : MonoBehaviour
         yield return new WaitForSeconds(0.5f);
 
         canvasUI.SetActive(true);
+        heartShard.initialFillAmount = Player.Instance.heartShards * 0.25f;
+        Player.Instance.heartShards++;
+        heartShard.targetFillAmount = Player.Instance.heartShards * 0.25f;
 
-        yield return new WaitForSeconds(4f);
-        Player.Instance.unlockDownSpell = true;
-        SaveData.Instance.SavePlayerData();
+        StartCoroutine(heartShard.LerpFill());
+
+        yield return new WaitForSeconds(2.5f);
         canvasUI.SetActive(false);
+        SaveData.Instance.SavePlayerData();
         Destroy(gameObject);
     }
 }

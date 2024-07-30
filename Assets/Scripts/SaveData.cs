@@ -20,8 +20,12 @@ public struct SaveData
 
     //player stuff
     public int playerHealth;
+    public int playerHeartShards;
     public float playerMana;
     public bool playerHalfMana;
+    public int playerManaOrbs;
+    public int playerOrbShard;
+    public float playerOrb0Fill, playerOrb1Fill, playerOrb2Fill;
     public Vector2 playerPos;
     public string lastScene;
 
@@ -87,11 +91,23 @@ public struct SaveData
         {
             playerHealth = Player.Instance.Health;
             writer.Write(playerHealth);
+            playerHeartShards = Player.Instance.heartShards;
+            writer.Write(playerHeartShards);
             playerHalfMana = Player.Instance.halfMana;
             writer.Write(playerHalfMana);
             playerMana = Player.Instance.Mana;
             writer.Write(playerMana);
-               
+            playerManaOrbs = Player.Instance.manaOrbs;
+            writer.Write(playerManaOrbs);
+            playerOrbShard = Player.Instance.orbShard;
+            writer.Write(playerOrbShard);
+            playerOrb0Fill = Player.Instance.manaOrbsHandler.orbFills[0].fillAmount;
+            writer.Write(playerOrb0Fill);
+            playerOrb1Fill = Player.Instance.manaOrbsHandler.orbFills[1].fillAmount;
+            writer.Write(playerOrb1Fill);
+            playerOrb2Fill = Player.Instance.manaOrbsHandler.orbFills[2].fillAmount;
+            writer.Write(playerOrb2Fill);
+
 
             playerUnlockWallJump = Player.Instance.unlockWallJump;
             writer.Write(playerUnlockWallJump);
@@ -124,8 +140,14 @@ public struct SaveData
             using (BinaryReader reader = new BinaryReader(File.OpenRead(Application.persistentDataPath + "/save.player.data")))
             {
                 playerHealth = reader.ReadInt32();
+                playerHeartShards = reader.ReadInt32();
                 playerHalfMana = reader.ReadBoolean();
                 playerMana = reader.ReadSingle();
+                playerManaOrbs = reader.ReadInt32();
+                playerOrbShard = reader.ReadInt32();
+                playerOrb0Fill = reader.ReadSingle();
+                playerOrb1Fill = reader.ReadSingle();
+                playerOrb2Fill = reader.ReadSingle();
 
                 playerUnlockWallJump = reader.ReadBoolean();
                 playerUnlockDash= reader.ReadBoolean();
@@ -141,8 +163,15 @@ public struct SaveData
                 
                 
                 Player.Instance.Health = playerHealth;
+                Player.Instance.heartShards = playerHeartShards;
                 Player.Instance.halfMana = playerHalfMana;
                 Player.Instance.Mana = playerMana;
+                Player.Instance.manaOrbs = playerManaOrbs;
+                Player.Instance.orbShard = playerOrbShard;
+                Player.Instance.manaOrbsHandler.orbFills[0].fillAmount = playerOrb0Fill;
+                Player.Instance.manaOrbsHandler.orbFills[1].fillAmount = playerOrb1Fill;
+                Player.Instance.manaOrbsHandler.orbFills[2].fillAmount = playerOrb2Fill;
+
 
                 Player.Instance.unlockWallJump = playerUnlockWallJump;
                 Player.Instance.unlockDash = playerUnlockDash;
@@ -161,6 +190,7 @@ public struct SaveData
             Debug.Log("file doesn't exist");
             
             Player.Instance.Health = Player.Instance.maxHealth;
+            Player.Instance.heartShards = 0;
             Player.Instance.halfMana = false;
             Player.Instance.Mana = 0.5f;
             

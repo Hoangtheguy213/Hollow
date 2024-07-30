@@ -56,6 +56,8 @@ public class Player : MonoBehaviour
     [Header("Health setting")]
     public int health;
     public int maxHealth;
+    public int maxTotalHealth =10;
+    public int heartShards;
     [SerializeField] GameObject bloodSpurt;
     [SerializeField] float hitFlashSpeed;
     public delegate void OnHealthChangedDelegate();
@@ -70,6 +72,10 @@ public class Player : MonoBehaviour
     [SerializeField] float manaDrainSpeed;
     [SerializeField] float manaGain;
     public bool halfMana;
+
+    public ManaOrbsHandler manaOrbsHandler;
+    public int orbShard;
+    public int manaOrbs;
     [Space(5)]
 
     [Header("Spell Settings: ")]
@@ -137,6 +143,7 @@ public class Player : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         anim = GetComponent<Animator>();
         sr = GetComponent<SpriteRenderer>();
+        manaOrbsHandler = FindObjectOfType<ManaOrbsHandler>();
 
         gravity = rb.gravityScale;
         Mana = mana;
@@ -395,8 +402,17 @@ public class Player : MonoBehaviour
 
             if (objectsToHit[i].CompareTag("Enemy"))
             {
-                Mana += manaGain;
-                Debug.Log("mana gain" + manaGain);
+                if (!halfMana && mana < 1 || (halfMana && mana < 0.5))
+                {
+                    mana += manaGain;
+                    
+                }
+                else
+                {
+                    manaOrbsHandler.UpdateMana(manaGain * 3);
+                }
+                //Mana += manaGain;
+                //Debug.Log("mana gain" + manaGain);
             }
 
 
@@ -608,13 +624,18 @@ public class Player : MonoBehaviour
         {
             pState.healing = true;
             anim.SetBool("Healing", true);
-            healTimer += Time.deltaTime;
 
+            //healing
+            healTimer += Time.deltaTime;
             if (healTimer >= timeToHeal)
             {
                 Health++;
                 healTimer = 0;
             }
+            //drain mana
+            manaOrbsHandler.usedMana = true;
+            manaOrbsHandler.countDown = 3f;
+
             Mana -= Time.deltaTime * manaDrainSpeed;
         }
         else
@@ -700,6 +721,8 @@ public class Player : MonoBehaviour
             pState.recoilingX = true;
 
             Mana -= manaSpellCost;
+            manaOrbsHandler.usedMana = true;
+            manaOrbsHandler.countDown = 3f;
             yield return new WaitForSeconds(0.35f);
         }
         //up cast
@@ -711,6 +734,8 @@ public class Player : MonoBehaviour
             rb.velocity = Vector2.zero;
 
             Mana -= manaSpellCost;
+            manaOrbsHandler.usedMana = true;
+            manaOrbsHandler.countDown = 3f;
             yield return new WaitForSeconds(0.35f);
         }
         //down cast
@@ -721,6 +746,8 @@ public class Player : MonoBehaviour
             downSpellFire.SetActive(true);
 
             Mana -= manaSpellCost;
+            manaOrbsHandler.usedMana = true;
+            manaOrbsHandler.countDown = 3f;
             yield return new WaitForSeconds(0.35f);
         }
         

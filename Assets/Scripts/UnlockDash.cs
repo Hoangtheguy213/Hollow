@@ -39,8 +39,9 @@ public class UnlockDash : MonoBehaviour
 
         yield return new WaitForSeconds(4f);
         Player.Instance.unlockDash = true;
-        SaveData.Instance.SavePlayerData();
         canvasUI.SetActive(false);
+        SaveData.Instance.SavePlayerData();
+       
         Destroy(gameObject);
     }
 }

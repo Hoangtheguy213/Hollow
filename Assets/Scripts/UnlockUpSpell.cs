@@ -1,9 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
-using System.Diagnostics.SymbolStore;
 using UnityEngine;
 
-public class UnlockWallJump : MonoBehaviour
+public class UnlockUpSpell : MonoBehaviour
 {
     bool used;
     [SerializeField] GameObject particals;
@@ -11,7 +10,7 @@ public class UnlockWallJump : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        if (Player.Instance.unlockWallJump)
+        if (Player.Instance.unlockUpSpell)
         {
             Destroy(gameObject);
         }
@@ -20,13 +19,13 @@ public class UnlockWallJump : MonoBehaviour
     // Update is called once per frame
     private void OnTriggerEnter2D(Collider2D _collision)
     {
-        if(_collision.CompareTag("Player") & !used)
+        if (_collision.CompareTag("Player") & !used)
         {
             used = true;
             GameObject _particals = Instantiate(particals, transform.position, Quaternion.identity);
             Destroy(_particals, 0.5f);
             StartCoroutine(ShowUI());
-            
+
         }
     }
     IEnumerator ShowUI()
@@ -38,9 +37,10 @@ public class UnlockWallJump : MonoBehaviour
         canvasUI.SetActive(true);
 
         yield return new WaitForSeconds(4f);
-        Player.Instance.unlockWallJump = true;
-        SaveData.Instance.SavePlayerData();
+        Player.Instance.unlockUpSpell = true;
         canvasUI.SetActive(false);
+        SaveData.Instance.SavePlayerData();
+        
         Destroy(gameObject);
     }
 }
