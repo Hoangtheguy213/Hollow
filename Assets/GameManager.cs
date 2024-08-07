@@ -40,7 +40,7 @@ public class GameManager : MonoBehaviour
         bench = FindObjectOfType<Bench>();
 
         /* The line below is used for del all the temp save*/
-        //SaveData.Instance.DeleteAllSaveData();
+        SaveData.Instance.DeleteAllSaveData();
     }
     private void Update()
     {

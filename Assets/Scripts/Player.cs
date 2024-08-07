@@ -56,8 +56,8 @@ public class Player : MonoBehaviour
     [Header("Health setting")]
     public int health;
     public int maxHealth;
-    public int maxTotalHealth =10;
-    public int heartShards;
+    public int maxTotalHealth = 10;
+    public int heartShards; 
     [SerializeField] GameObject bloodSpurt;
     [SerializeField] float hitFlashSpeed;
     public delegate void OnHealthChangedDelegate();
@@ -113,6 +113,7 @@ public class Player : MonoBehaviour
     private bool dashed;
     private float gravity;
     bool openMap;
+    bool openInventory;
 
     public static Player Instance;
 
@@ -174,6 +175,7 @@ public class Player : MonoBehaviour
         {
             getInput();
             ToggleMap();
+            ToggleInventory();
             Heal();
 
         }
@@ -184,7 +186,7 @@ public class Player : MonoBehaviour
         if (pState.Dashing || pState.healing) return;
         if (pState.alive)
         {
-            if(!isWallJumping)
+            if (!isWallJumping)
             {
                 Flip();
                 Move();
@@ -197,7 +199,7 @@ public class Player : MonoBehaviour
                 WallJump();
             }
 
-            if(unlockDash)
+            if (unlockDash)
             {
                 StartDash();
             }
@@ -233,6 +235,7 @@ public class Player : MonoBehaviour
         yAxist = Input.GetAxisRaw("Vertical");
         attack = Input.GetButtonDown("Attack");
         openMap = Input.GetButton("Map");
+        openInventory = Input.GetButton("Inventory");
 
         if (Input.GetButton("Cast/Healing"))
         {
@@ -254,6 +257,17 @@ public class Player : MonoBehaviour
         else
         {
             UIManager.Instance.mapHandler.SetActive(false);
+        }
+    }
+    void ToggleInventory()
+    {
+        if (openInventory)
+        {
+            UIManager.Instance.inventory.SetActive(true);
+        }
+        else
+        {
+            UIManager.Instance.inventory.SetActive(false);
         }
     }
     //transform sprite
@@ -405,7 +419,7 @@ public class Player : MonoBehaviour
                 if (!halfMana && mana < 1 || (halfMana && mana < 0.5))
                 {
                     mana += manaGain;
-                    
+
                 }
                 else
                 {
@@ -500,7 +514,8 @@ public class Player : MonoBehaviour
             {
                 Health = 0;
                 StartCoroutine(Death());
-            } else
+            }
+            else
             {
                 StartCoroutine(StopTakingDamage());
             }
@@ -534,7 +549,8 @@ public class Player : MonoBehaviour
             if (Time.timeScale < 1)
             {
                 Time.timeScale += Time.deltaTime * restoreTimeSpeed;
-            } else
+            }
+            else
             {
                 Time.timeScale = 1;
                 restoreTime = false;
@@ -700,7 +716,7 @@ public class Player : MonoBehaviour
 
     IEnumerator CastCoroutine()
     {
-        
+
 
         //side cast
         if ((yAxist == 0 || (yAxist < 0 && Grounded())) && unlockSideSpell)
@@ -750,7 +766,7 @@ public class Player : MonoBehaviour
             manaOrbsHandler.countDown = 3f;
             yield return new WaitForSeconds(0.35f);
         }
-        
+
         anim.SetBool("Casting", false);
         pState.casting = false;
     }
@@ -769,7 +785,7 @@ public class Player : MonoBehaviour
     }
     void Jump()
     {
-        
+
         if (Input.GetButtonUp("Jump") && rb.velocity.y > 3)
         {
             rb.velocity = new Vector2(rb.velocity.x, 0);
@@ -784,7 +800,7 @@ public class Player : MonoBehaviour
             pState.Jumping = true;
         }
         // var jump
-        if (!Grounded() && airJumpCouter < maxAirJump && Input.GetButtonDown("Jump")&& unlockVarJump)
+        if (!Grounded() && airJumpCouter < maxAirJump && Input.GetButtonDown("Jump") && unlockVarJump)
         {
             pState.Jumping = true;
             airJumpCouter++;
@@ -840,18 +856,18 @@ public class Player : MonoBehaviour
 
             CancelInvoke(nameof(StopWallJumping));
         }
-        if(Input.GetButtonDown("Jump") && isWallSliding)
+        if (Input.GetButtonDown("Jump") && isWallSliding)
         {
             isWallJumping = true;
             rb.velocity = new Vector2(wallJumpingDirection * wallJumpingPower.x, wallJumpingPower.y);
 
-            dashed =false;
+            dashed = false;
             airJumpCouter = 0;
 
-            if(pState.lookingRight && transform.eulerAngles.y ==0 || (!pState.lookingRight && transform.eulerAngles.y != 0))
+            if (pState.lookingRight && transform.eulerAngles.y == 0 || (!pState.lookingRight && transform.eulerAngles.y != 0))
             {
                 pState.lookingRight = !pState.lookingRight;
-                int _yRotation =pState.lookingRight? 0 : 180;
+                int _yRotation = pState.lookingRight ? 0 : 180;
 
                 transform.eulerAngles = new Vector2(transform.eulerAngles.x, _yRotation);
             }
