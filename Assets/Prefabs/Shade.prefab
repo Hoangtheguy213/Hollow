@@ -54,7 +54,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: 7b1439738e4cc8d45869fc0211dae42b, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -102,7 +102,7 @@ MonoBehaviour:
   recoilLength: 0.1
   recoilFactor: 0.3
   isRecoiling: 0
-  speed: 10
+  speed: 5
   damage: 1
   greenBlood: {fileID: 1149379237944309843, guid: 02a822d217e56ce48b65f9e8900e2145, type: 3}
   chaseDistance: 10

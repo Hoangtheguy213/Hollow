@@ -170,6 +170,8 @@ public class Player : MonoBehaviour
 
     void Update()
     {
+        if (GameManager.Instance.gameIsPaused) return;
+
         if (pState.cutscene) return;
         if (pState.alive)
         {

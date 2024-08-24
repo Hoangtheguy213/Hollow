@@ -135,6 +135,8 @@ GameObject:
   - component: {fileID: 2324984385474962539}
   - component: {fileID: 2324984385474962542}
   - component: {fileID: 2324984385474962543}
+  - component: {fileID: 3210604403762631187}
+  - component: {fileID: 5504126473601055065}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -182,7 +184,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: 7b1439738e4cc8d45869fc0211dae42b, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -306,6 +308,8 @@ MonoBehaviour:
   recoilYSpeed: 10
   health: 0
   maxHealth: 10
+  maxTotalHealth: 10
+  heartShards: 0
   bloodSpurt: {fileID: 1149379237944309843, guid: 02a822d217e56ce48b65f9e8900e2145, type: 3}
   hitFlashSpeed: 7
   timeToHeal: 1
@@ -314,6 +318,9 @@ MonoBehaviour:
   manaDrainSpeed: 0.2
   manaGain: 0.2
   halfMana: 0
+  manaOrbsHandler: {fileID: 0}
+  orbShard: 0
+  manaOrbs: 0
   manaSpellCost: 0.1
   timeBetweenCast: 2
   spellDamage: 10
@@ -332,7 +339,10 @@ MonoBehaviour:
   pState: {fileID: 0}
   unlockWallJump: 0
   unlockDash: 0
-  unlockCastSpell: 0
+  unlockVarJump: 0
+  unlockSideSpell: 0
+  unlockUpSpell: 0
+  unlockDownSpell: 0
 --- !u!95 &2324984385474962542
 Animator:
   serializedVersion: 3
@@ -374,6 +384,59 @@ MonoBehaviour:
   casting: 0
   cutscene: 0
   alive: 1
+--- !u!114 &3210604403762631187
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2324984385474962532}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 073797afb82c5a1438f328866b10b3f0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_LightType: 3
+  m_BlendStyleIndex: 0
+  m_FalloffIntensity: 0.91
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Intensity: 0.82
+  m_LightVolumeOpacity: 0
+  m_ApplyToSortingLayers: f1bdadb22715c76af931dea613a96bd000000000c56c7e43a14f65ba
+  m_LightCookieSprite: {fileID: 0}
+  m_UseNormalMap: 0
+  m_LightOrder: 0
+  m_AlphaBlendOnOverlap: 0
+  m_ShadowIntensity: 0
+  m_ShadowVolumeIntensity: 0
+  m_PointLightInnerAngle: 360
+  m_PointLightOuterAngle: 360
+  m_PointLightInnerRadius: 0
+  m_PointLightOuterRadius: 1
+  m_PointLightDistance: 3
+  m_PointLightQuality: 1
+  m_ShapeLightParametricSides: 5
+  m_ShapeLightParametricAngleOffset: 0
+  m_ShapeLightParametricRadius: 1
+  m_ShapeLightFalloffSize: 0.5
+  m_ShapeLightFalloffOffset: {x: 0, y: 0}
+  m_ShapePath:
+  - {x: -0.5, y: -0.5, z: 0}
+  - {x: 0.5, y: -0.5, z: 0}
+  - {x: 0.5, y: 0.5, z: 0}
+  - {x: -0.5, y: 0.5, z: 0}
+--- !u!114 &5504126473601055065
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2324984385474962532}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1714cdb0a5268a64fa672348adedfc2a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &2324984385589519479
 GameObject:
   m_ObjectHideFlags: 0

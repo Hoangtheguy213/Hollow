@@ -12,6 +12,10 @@ public class GameManager : MonoBehaviour
     public static GameManager Instance { get; private set; }
 
     public GameObject shade;
+
+    [SerializeField] private FadeUI pauseMenu;
+    [SerializeField] private float fadeTime;
+    public bool gameIsPaused;
     private void Awake()
     {
         SaveData.Instance.Initialize();
@@ -23,12 +27,12 @@ public class GameManager : MonoBehaviour
         {
             Instance = this;
         }
-        if(Player.Instance  != null)
+        if (Player.Instance != null)
         {
             if (Player.Instance.halfMana)
             {
                 SaveData.Instance.LoadShadeData();
-                if(SaveData.Instance.sceneWithShade ==SceneManager.GetActiveScene().name || SaveData.Instance.sceneWithShade == "")
+                if (SaveData.Instance.sceneWithShade == SceneManager.GetActiveScene().name || SaveData.Instance.sceneWithShade == "")
                 {
                     Instantiate(shade, SaveData.Instance.shadePos, SaveData.Instance.shadeRot);
                 }
@@ -49,6 +53,17 @@ public class GameManager : MonoBehaviour
             SaveData.Instance.SavePlayerData();
             Debug.Log("Player data saved");
         }
+        if (Input.GetKeyDown(KeyCode.Escape) && !gameIsPaused)
+        {
+            pauseMenu.FadeUIIn(fadeTime);
+            Time.timeScale = 0;
+            gameIsPaused = true;
+        }
+    }
+    public void UnPauseGame()
+    {
+        Time.timeScale = 1;
+        gameIsPaused = false;
     }
 
     public void SaveScene()
@@ -58,16 +73,16 @@ public class GameManager : MonoBehaviour
     }
     public void RespawnPlayer()
     {
-        
+
         SaveData.Instance.LoadBench();
-        
+
         if (SaveData.Instance.benchSceneName != null)// load the bench's scene if exist
         {
             //transitionedFromScene = SceneManager.GetActiveScene().name;
             transitionedFromScene = SaveData.Instance.benchSceneName;
             SceneManager.LoadScene(SaveData.Instance.benchSceneName);
         }
-        if(SaveData.Instance.benchPos != null)// set the respawn to the bench's pos
+        if (SaveData.Instance.benchPos != null)// set the respawn to the bench's pos
         {
             respawnPoint = SaveData.Instance.benchPos;
         }
